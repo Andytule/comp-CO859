@@ -1,0 +1,100 @@
+Andy Le - 000805099
+
+Insert Error
+
+Error Message: Violation of PRIMARY KEY constraint 'PK_sale'.
+Cannot insert duplicate key in object 'dbo.sale'. The duplicate
+key value is (30).
+
+Delete Error
+
+Error Message: The DELETE statement conflicted with the
+REFERENCE constraint "FK_sale_sale_service_id". The conflict
+occurred in database "shiki's shoe", table "dbo.sale", cloumn
+'service_id'.
+
+SELECT 1 - Show the tables exist
+Database             Table
+-------------------- --------------------
+shiki's_shoe         service
+shiki's_shoe         sale
+
+(2 rows affected)
+
+SELECT 2 - Show that the tables have the correct columns
+Table                Column               Pos         Type                 Length
+-------------------- -------------------- ----------- -------------------- -----------
+service              service_id           1           int                  NULL
+service              service_description  2           varchar              25
+service              service_type         3           char                 1
+service              price                4           money                NULL
+service              sales_ytd            5           money                NULL
+sale                 sales_id             1           int                  NULL
+sale                 sales_date           2           date                 NULL
+sale                 amount               3           money                NULL
+sale                 service_id           4           int                  NULL
+
+(9 rows affected)
+
+SELECT 3 - Show that all the constraints (PK, CK and FK) were set up properly
+Table           Column               Constraint                          Type        Constraint_Details
+--------------- -------------------- ----------------------------------- ----------- ---------------------------------------------------------------------------
+sale            sales_id             PK_sale                             PRIMARY KEY sale(sales_id)
+sale            service_id           FK_sale_sale_service_id             FOREIGN KEY sale(service_id)
+sale            amount               CK_sale_amount                      CHECK       ([amount]>=(0.00))
+service         service_id           PK_service                          PRIMARY KEY service(service_id)
+service         service_type         CK_service_service_type             CHECK       ([service_type]='B' OR [service_type]='A')
+service         sales_ytd            CK_service_sales_ytd                CHECK       ([sales_ytd]>=(0.00))
+service         price                CK_service_price                    CHECK       ([price]>=(0.00))
+
+(7 rows affected)
+
+SELECT 4 - Show the Master table data
+service_id  service_description       service_type price                 sales_ytd
+----------- ------------------------- ------------ --------------------- ---------------------
+100         Shoe Clean                B            20.00                 120.00
+200         Protective Treatment      B            15.00                 90.00
+300         Sole Swap                 B            25.00                 150.00
+400         Air Paint                 A            35.00                 210.00
+500         Custom Paint Design       A            50.00                 300.00
+
+(5 rows affected)
+
+SELECT 5 - Show the Sales table data
+sales_id    sales_date amount                service_id
+----------- ---------- --------------------- -----------
+1           2020-09-09 25.00                 300
+2           2020-09-09 20.00                 100
+3           2020-09-09 25.00                 300
+4           2020-09-09 15.00                 200
+5           2020-09-10 35.00                 400
+6           2020-09-10 15.00                 200
+7           2020-09-10 50.00                 500
+8           2020-09-11 20.00                 100
+9           2020-09-11 35.00                 400
+10          2020-09-11 25.00                 300
+11          2020-09-12 50.00                 500
+12          2020-09-14 20.00                 100
+13          2020-09-14 35.00                 400
+14          2020-09-15 15.00                 200
+15          2020-09-16 50.00                 500
+16          2020-09-16 20.00                 100
+17          2020-09-16 50.00                 500
+18          2020-09-17 25.00                 300
+19          2020-09-17 20.00                 100
+20          2020-09-18 35.00                 400
+21          2020-09-19 25.00                 300
+22          2020-09-19 50.00                 500
+23          2020-09-20 25.00                 300
+24          2020-09-20 15.00                 200
+25          2020-09-20 50.00                 500
+26          2020-09-20 15.00                 200
+27          2020-09-21 35.00                 400
+28          2020-09-22 20.00                 100
+29          2020-09-23 35.00                 400
+30          2020-09-23 15.00                 200
+
+(30 rows affected)
+
+
+Completion time: 2020-09-30T22:58:18.5414584-04:00
